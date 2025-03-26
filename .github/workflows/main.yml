@@ -32,8 +32,9 @@ jobs:
       - name: Make Directory
         run: mkdir -p deploy
 
-      - name: Copy Jar
-        run: cp boot_java/target/*.jar ./deploy
+      - name: Copy WAR
+        run: cp boot_java/target/*.war ./deploy
+
 
       - name: Make zip file
         run: zip -r ./boot_java_build.zip ./deploy
