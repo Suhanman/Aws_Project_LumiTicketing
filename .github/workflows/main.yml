@@ -34,5 +34,5 @@ jobs:
             --deployment-group-name LumiTicketing-Group \
             --file-exists-behavior OVERWRITE \
             --s3-location bucket=lumiticketing-project-03230316,bundleType=zip,key=boot_front_build.zip \
-            --region ap-northeast-2/
+            --region ap-northeast-2
 
