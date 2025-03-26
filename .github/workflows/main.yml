@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        
+      - name: Unzip boot_login.zip
+        run: unzip boot_java.zip -d boot_java
 
       - name: Set up JDK 17 and Maven
         uses: actions/setup-java@v3
@@ -21,8 +24,7 @@ jobs:
           distribution: 'temurin'
           cache: 'maven'
 
-      - name: Unzip boot_login.zip
-        run: unzip boot_java.zip -d boot_java
+
 
       - name: Build with Maven
         run: cd boot_java && mvn clean package -DskipTests
