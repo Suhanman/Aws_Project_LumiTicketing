@@ -14,7 +14,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         
-      - name: Unzip boot_login.zip
+      - name: Unzip boot_java.zip
         run: unzip boot_java.zip -d boot_java
 
       - name: Set up JDK 17 and Maven
