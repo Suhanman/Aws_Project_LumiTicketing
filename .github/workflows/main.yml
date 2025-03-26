@@ -1,4 +1,4 @@
-name: LumiTicketing server CI/CD
+name: LumiTicketing CI/CD
 
 on:
   push:
@@ -7,46 +7,32 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-        
-      - name: Unzip boot_front.zip
-        run: unzip boot_front.zip -d boot_front
 
-      - name: Set up JDK 17 and Maven
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: 'maven'
-
-
-
-      - name: Build with Maven
-        run: cd boot_front && mvn clean package -DskipTests
-
-      - name: Make Directory
-        run: mkdir -p deploy
-
-      - name: Copy WAR
-        run: cp boot_front/target/*.war ./deploy
-
-
-      - name: Make zip file
-        run: zip -r ./boot_front_build.zip ./deploy
-        shell: bash
-
-      - name: Configure AWS credentials
+      - name: Upload boot_front.zip to S3
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-      - name: Upload to S3
-        run: aws s3 cp --region ap-northeast-2 ./boot_front_build.zip s3://lumiticketing-project-03230316/
+      - name: Upload ZIP to S3
+        run: aws s3 cp boot_front.zip s3://lumiticketing-project-03230316/boot_front_build.zip
+
+      - name: Trigger CodeDeploy
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: |
+          aws deploy create-deployment \
+            --application-name LumiTicketing \
+            --deployment-group-name LumiTicketing-Group \
+            --file-exists-behavior OVERWRITE \
+            --s3-location bucket=lumiticketing-project-03230316,bundleType=zip,key=boot_front_build.zip \
+            --region ap-northeast-2/
 
