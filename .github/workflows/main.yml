@@ -27,7 +27,7 @@ jobs:
 
 
       - name: Build with Maven
-        run: cd boot_java && mvn clean package -DskipTests
+        run: cd boot_front && mvn clean package -DskipTests
 
       - name: Make Directory
         run: mkdir -p deploy
