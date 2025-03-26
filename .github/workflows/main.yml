@@ -14,8 +14,8 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         
-      - name: Unzip boot_java.zip
-        run: unzip boot_java.zip -d boot_java
+      - name: Unzip boot_front.zip
+        run: unzip boot_front.zip -d boot_java
 
       - name: Set up JDK 17 and Maven
         uses: actions/setup-java@v3
@@ -33,11 +33,11 @@ jobs:
         run: mkdir -p deploy
 
       - name: Copy WAR
-        run: cp boot_java/target/*.war ./deploy
+        run: cp boot_front/target/*.war ./deploy
 
 
       - name: Make zip file
-        run: zip -r ./boot_java_build.zip ./deploy
+        run: zip -r ./boot_front_build.zip ./deploy
         shell: bash
 
       - name: Configure AWS credentials
