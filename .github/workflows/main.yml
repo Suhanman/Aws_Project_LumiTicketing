@@ -26,12 +26,25 @@ jobs:
       with:
         maven-version: '3.9.5'
 
+    - name: Unzip boot_login.zip
+      run: unzip boot_java.zip -d boot_java
+
     - name: Build with Maven
       run: cd boot_java && mvn clean package -DskipTests
+
+   
 
     # 디렉토리 생성
     - name: Make Directory
       run: mkdir -p deploy
+
+    - name: Copy Jar
+      run: cp boot_java/target/*.jar ./deploy
+
+     # 압축 파일 만들기
+    - name: Make zip file
+      run: zip -r ./boot_java_build.zip ./deploy
+      shell: bash
 
 
 
@@ -45,4 +58,4 @@ jobs:
 
     # S3에 업로드
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./boot_login.zip s3://lumiticketing-project-03230316/
+      run: aws s3 cp --region ap-northeast-2 ./boot_java_build.zip s3://lumiticketing-project-03230316/
