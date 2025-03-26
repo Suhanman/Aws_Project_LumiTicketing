@@ -1,4 +1,4 @@
-name: Sebadog-book server CI/CD
+name: LumiTicketing server CI/CD
 
 on:
   push:
@@ -20,33 +20,29 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
+    
+    - name: Setup Maven
+      uses: s4u/setup-maven-action@v1
+      with:
+        maven-version: '3.9.5'
 
-    - name: Build with Gradle
-      run: ./gradlew clean build -x test # 테스트는 Skip
+    - name: Build with Maven
+      run: cd boot_java && mvn clean package -DskipTests
 
     # 디렉토리 생성
     - name: Make Directory
       run: mkdir -p deploy
 
-    # Jar 파일 복사
-    - name: Copy Jar
-      run: cp ./build/libs/*.jar ./deploy
 
-    # Zip 파일 생성
-    - name: Make zip file
-      run: zip -r ./sebadog.zip ./deploy
-      shell: bash
 
     # AWS 자격 증명 설정
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v1
       with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-access-key-id: ${{ secrets.AKIA4HWJT26ED3OFBPUN }}
+        aws-secret-access-key: ${{ secrets.z9qQG0f9JL7uaXcNARPnwWhN+xUTC3DqnqaEHpdf }}
         aws-region: ap-northeast-2
 
     # S3에 업로드
     - name: Upload to S3
-      run: aws s3 cp --region ap-northeast-2 ./sebadog.zip s3://lumiticketing-project-03230316/
+      run: aws s3 cp --region ap-northeast-2 ./boot_login.zip s3://lumiticketing-project-03230316/
