@@ -130,7 +130,7 @@
 </script>
 
 <div class="header-container">
-    <h1 class="site-title">루미티케팅</h1>
+    <h1 class="site-title">으아아루미티케팅!!!!!!!</h1>
     
        <c:if test="${empty sessionScope.id}">
         <div class="user-info">
