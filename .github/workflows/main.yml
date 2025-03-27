@@ -14,12 +14,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Upload boot_front.zip to S3
+      - name: Setup AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
+
+      - name: Make ZIP (boot_front.zip)
+        run: |
+          zip -r boot_front.zip \
+            appspec.yml \
+            pom.xml \
+            scripts \
+            src \
+            Dockerfile || true
 
       - name: Upload ZIP to S3
         run: aws s3 cp boot_front.zip s3://lumiticketing-project-03230316/boot_front_build.zip
@@ -35,4 +44,5 @@ jobs:
             --file-exists-behavior OVERWRITE \
             --s3-location bucket=lumiticketing-project-03230316,bundleType=zip,key=boot_front_build.zip \
             --region ap-northeast-2
+
 
