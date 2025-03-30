@@ -5,7 +5,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+<<<<<<< HEAD
 <title>Lumiticketing</title>
+=======
+<title>index</title>
+>>>>>>> 608638d5f1afeb995ba21ef2eb37ac0f9578c15c
 <script>
     // 회원가입 성공 메시지가 존재하면 팝업을 띄움
    window.onload = function() {

@@ -89,6 +89,7 @@
 			<artifactId>mysql-connector-j</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+<<<<<<< HEAD
 		
 		<dependency>
   <groupId>org.springframework.session</groupId>
@@ -96,6 +97,8 @@
 </dependency>
 
 		
+=======
+>>>>>>> 608638d5f1afeb995ba21ef2eb37ac0f9578c15c
 	</dependencies>
 
 	<build>

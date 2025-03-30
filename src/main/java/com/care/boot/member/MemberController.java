@@ -58,10 +58,13 @@ public class MemberController {
     }
 
  
+<<<<<<< HEAD
     @RequestMapping("test-session")
     public String testSession() {
         return "test-session";  // /jsp/test-session.jsp 를 가리킴
     }
+=======
+>>>>>>> 608638d5f1afeb995ba21ef2eb37ac0f9578c15c
 
 
 
