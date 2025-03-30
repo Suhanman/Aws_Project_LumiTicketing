@@ -22,9 +22,7 @@ jobs:
           aws-region: ap-northeast-2
 
 
-      - name: Make ZIP (boot_back.zip)
-        run: |
-          zip -r boot_back.zip \
+   
 
       - name: Make ZIP (boot_front.zip)
         run: |
@@ -37,8 +35,6 @@ jobs:
             Dockerfile || true
 
       - name: Upload ZIP to S3
-
-     
 
         run: aws s3 cp boot_front.zip s3://lumiticketing-project-03230316/boot_front_build.zip
 
