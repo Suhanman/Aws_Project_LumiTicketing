@@ -1,13 +1,12 @@
 version: 0.0
 os: linux
 files:
-<<<<<<< HEAD
   - source: src/main/java/com/
     destination: /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/com/
-=======
+
   - source: src/main/webapp/jsp/
     destination: /opt/tomcat/tomcat-10/webapps/boot/jsp/
->>>>>>> 608638d5f1afeb995ba21ef2eb37ac0f9578c15c
+
     overwrite: yes
 
 permissions:
