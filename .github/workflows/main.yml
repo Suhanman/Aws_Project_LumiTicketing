@@ -38,7 +38,7 @@ jobs:
 
       - name: Upload ZIP to S3
 
-        run: aws s3 cp boot_back.zip s3://lumiticketing-project-03230316/boot_back_build.zip
+     
 
         run: aws s3 cp boot_front.zip s3://lumiticketing-project-03230316/boot_front_build.zip
 
