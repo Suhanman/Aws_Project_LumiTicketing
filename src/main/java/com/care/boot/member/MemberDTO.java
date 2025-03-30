@@ -1,5 +1,8 @@
 package com.care.boot.member;
 
+
+import java.io.Serializable;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,12 +12,27 @@ import java.time.format.DateTimeFormatter;
 public class MemberDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+// ✅ Redis 세션 저장을 위해 Serializable 구현
+public class MemberDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+
+public class MemberDTO {
+
     private String id;          // 회원 ID
     private String pw;          // 비밀번호
     private String userName;    // 이름
     private String mobile;      // 연락처
     private String membership;  // "Regular", "VIP", "Admin"
     private Integer vipNumber;   // VIP 회원만 해당
+
+    private int ticket_number;  // 티켓 예매한 경우 해당 티켓 번호
+
     private int ticket_number;  // 티켓 예매한 경우 해당 티켓 번호
     private String confirm;
     private LocalDateTime date;
@@ -30,6 +48,25 @@ public class MemberDTO implements Serializable {
     // 🛠 기본 생성자 (필수!)
     public MemberDTO() {
         this.membership = "Regular";
+=======
+    private int ticket_number;// 티켓 예매한 경우 해당 티켓 번호
+    private String confirm;
+    private LocalDateTime date;
+
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
+
+    // 🛠 기본 생성자 (필수!)
+    public MemberDTO() {
+        this.membership = "Regular";
+
+    	this.membership = "Regular";
+
     }
 
     // 🛠 모든 필드를 포함한 생성자 (최종 통합)
@@ -45,6 +82,10 @@ public class MemberDTO implements Serializable {
     }
 
     public int getTicket_number() {
+
+        return ticket_number;
+    }
+
         return ticket_number;
     }
 
@@ -60,6 +101,24 @@ public class MemberDTO implements Serializable {
         this.date = date;
     }
 
+
+		return ticket_number;
+	}
+
+
+    public void setTicket_number(int ticket_number) {
+        this.ticket_number = ticket_number;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+	// ✅ Getter & Setter
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }
 
@@ -87,7 +146,13 @@ public class MemberDTO implements Serializable {
             this.ticket_number = this.vipNumber; // VIP는 자신의 VIP 번호가 티켓 번호
             return true;
         } else if (currentTicketCount >= 101 && currentTicketCount <= 5000) {
+
             this.ticket_number = currentTicketCount;
+
+            this.ticket_number = currentTicketCount;
+
+        	this.ticket_number = currentTicketCount;
+
             return true;
         }
         return false; // 티켓 부족

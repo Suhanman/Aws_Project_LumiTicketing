@@ -57,11 +57,12 @@ public class MemberController {
         return service.loginProc(id, pw, session, response);
     }
 
- 
+
     @RequestMapping("test-session")
     public String testSession() {
         return "test-session";  // /jsp/test-session.jsp 를 가리킴
     }
+
 
 
 

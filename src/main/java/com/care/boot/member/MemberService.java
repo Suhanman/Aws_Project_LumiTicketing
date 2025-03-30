@@ -63,6 +63,10 @@ public class MemberService {
             session.setAttribute("mobile", check.getMobile());
             session.setAttribute("membership", check.getMembership());
 
+
+            // ✅ loginUser 세션에 MemberDTO 객체 통째로 저장
+            session.setAttribute("loginUser", check);
+
             // ✅ loginUser 세션에 MemberDTO 객체 통째로 저장
             session.setAttribute("loginUser", check);
 
@@ -80,6 +84,25 @@ public class MemberService {
 
             response.setHeader("X-User-Membership", "regular");
             return "redirect:https://www.lumiticketing.click/boot/index";
+
+            String grade = check.getMembership();
+            try {
+                redisService.save(check.getId(), new ObjectMapper().writeValueAsString(check));
+            } catch (JsonProcessingException e) {
+                e.printStackTrace();
+            }
+
+            if ("vip".equalsIgnoreCase(grade) || "admin".equalsIgnoreCase(grade)) {
+                response.setHeader("X-User-Membership", "vip");
+                return "redirect:https://vip.lumiticketing.click/boot/index";
+            }
+
+            response.setHeader("X-User-Membership", "regular");
+
+            return "redirect:https://www.lumiticketing.click/boot/index";
+
+            return "redirect:https://www.lumiticketing.click";
+
         }
 
         return "아이디 또는 비밀번호를 확인 후 다시 입력하세요.";
