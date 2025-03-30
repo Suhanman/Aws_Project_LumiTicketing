@@ -1,4 +1,4 @@
-name: LumiTicketing CI/CD
+name: LumiTicketing CI/CD (login_front)
 
 on:
   push:
@@ -21,22 +21,17 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
 
-
-   
-
-      - name: Make ZIP (boot_front.zip)
+      - name: Make ZIP (login_front.zip)
         run: |
-          zip -r boot_front.zip \
+          zip -r login_front.zip \
             appspec.yml \
-            pom.xml \
             scripts \
             src \
-            Dockerfile || true
+            public \
+            package.json || true
 
       - name: Upload ZIP to S3
-
-        run: aws s3 cp boot_front.zip s3://lumiticketing-project-03230316/boot_front_build.zip
-
+        run: aws s3 cp login_front.zip s3://lumiticketing-project-03230316/login_front_build.zip
 
       - name: Trigger CodeDeploy
         env:
@@ -47,11 +42,9 @@ jobs:
             --application-name LumiTicketing \
             --deployment-group-name LumiTicketing-Group \
             --file-exists-behavior OVERWRITE \
-
-           
-
-            --s3-location bucket=lumiticketing-project-03230316,bundleType=zip,key=boot_front_build.zip \
+            --s3-location bucket=lumiticketing-project-03230316,bundleType=zip,key=login_front_build.zip \
             --region ap-northeast-2
+
 
 
 
