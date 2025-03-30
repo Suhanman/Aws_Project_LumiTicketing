@@ -130,7 +130,9 @@
 </script>
 
 <div class="header-container">
-    <h1 class="site-title">LumiTicketing</h1>
+
+    <h1 class="site-title">전라도 완주 35사단</h1>
+>>>>>>> 608638d5f1afeb995ba21ef2eb37ac0f9578c15c
     
        <c:if test="${empty sessionScope.id}">
         <div class="user-info">
