@@ -27,7 +27,6 @@ jobs:
       - name: Make ZIP (boot_front.zip)
         run: |
           zip -r boot_front.zip \
-
             appspec.yml \
             pom.xml \
             scripts \
