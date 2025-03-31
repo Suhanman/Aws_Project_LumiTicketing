@@ -3,7 +3,7 @@ os: linux
 
 
 files:
-  - source: target/boot-0.0.1-SNAPSHOT.war
+  - source: boot-0.0.1-SNAPSHOT.war
     destination: /opt/tomcat/tomcat-10/webapps/
     overwrite: yes
 
