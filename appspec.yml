@@ -8,9 +8,6 @@ files:
   - source: src/main/java/com/
     destination: /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/com/
     overwrite: yes
-	
-  - source: src/main/resources/mappers
-	destination: /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/mappers
 
 
 permissions:
