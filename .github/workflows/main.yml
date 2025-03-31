@@ -25,10 +25,10 @@ jobs:
         run: |
           zip -r login_front.zip \
             appspec.yml \
-            scripts \
+            Scripts \
             src \
             public \
-            package.json || true
+            pom.xml
 
       - name: Upload ZIP to S3
         run: aws s3 cp login_front.zip s3://lumiticketing-project-03230316/login_front_build.zip
