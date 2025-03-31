@@ -26,7 +26,7 @@ public class MemberController {
     }
 
     @PostMapping("registProc")
-    public String registProc(MemberDTO member, Model model, RedirectAttributes ra) {
+    public String registProc(@ModelAttribute MemberDTO member, Model model, RedirectAttributes ra) {
         System.out.println("회원가입 요청 받음: " + member.toString());
         String msg = service.registProc(member);
         System.out.println("회원가입 처리 결과: " + msg);
