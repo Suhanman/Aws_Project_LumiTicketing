@@ -14,15 +14,19 @@ public interface IMemberMapper {
     @Select("SELECT COUNT(*) FROM VIPMember")
     int countVIPMembers();
 
-    @Insert("INSERT INTO RegularMember (id, pw, userName, mobile, membership) VALUES (#{id}, #{pw}, #{userName}, #{mobile}, #{membership})")
+    // ✅ email 필드 포함하여 수정
+    @Insert("INSERT INTO RegularMember (id, pw, userName, mobile, email, membership) VALUES (#{id}, #{pw}, #{userName}, #{mobile}, #{email}, #{membership})")
     int registProc(MemberDTO member);
 
-    @Select("(SELECT id, pw, userName, mobile, membership, NULL AS vip_number FROM RegularMember WHERE id = #{id}) " +
+    // ✅ email 필드 포함하여 수정
+    @Select("(SELECT id, pw, userName, mobile, email, membership, NULL AS vip_number FROM RegularMember WHERE id = #{id}) " +
             "UNION ALL " +
-            "(SELECT id, pw, userName, mobile, membership, vip_number FROM VIPMember WHERE id = #{id}) " +
+            "(SELECT id, pw, userName, mobile, email, membership, vip_number FROM VIPMember WHERE id = #{id}) " +
             "UNION ALL " +
-            "(SELECT id, pw, userName, mobile, membership, NULL AS vip_number FROM Admin WHERE id = #{id})")
+            "(SELECT id, pw, userName, mobile, email, membership, NULL AS vip_number FROM Admin WHERE id = #{id})")
     MemberDTO login(@Param("id") String id);
+}
+
 
 
 
