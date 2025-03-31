@@ -1,11 +1,12 @@
 version: 0.0
 os: linux
 files:
+  - source: src/main/webapp/
+    destination: /opt/tomcat/tomcat-10/webapps/boot/
+    overwrite: yes
+
   - source: src/main/java/com/
     destination: /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/com/
-
-
-
     overwrite: yes
 
 permissions:
@@ -15,7 +16,7 @@ permissions:
     group: ubuntu
 
 hooks:
-  Afterinstall:
+  AfterInstall:
     - location: Scripts/deploy/deploy.sh
       timeout: 60
       runas: ubuntu
