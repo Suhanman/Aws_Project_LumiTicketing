@@ -33,7 +33,7 @@ jobs:
       - name: 📦 배포 ZIP 만들기 (boot.war 포함)
         run: |
           mkdir deploy
-          cp target/boot-0.0.1-SNAPSHOT.war deploy/
+          cp target/boot.war deploy/
           cp appspec.yml deploy/
           cp -r Scripts deploy/
           cd deploy && zip -r login_front.zip .
