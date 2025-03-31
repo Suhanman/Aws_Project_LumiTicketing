@@ -1,4 +1,4 @@
-name: LumiTicketing CI/CD (login_front)
+name: LumiTicketing CI/CD (WAR 배포 - boot.war)
 
 on:
   push:
@@ -11,32 +11,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: 🧾 Checkout
         uses: actions/checkout@v3
 
-      - name: Setup AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v1
+      - name: ☕ Java 17 설정
+        uses: actions/setup-java@v3
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-2
+          distribution: 'temurin'
+          java-version: '17'
 
-      - name: Make ZIP (login_front.zip)
+      - name: ⚙️ Maven 빌드 (.war 생성)
+        run: mvn clean package -DskipTests=true
+
+      - name: 📦 배포 ZIP 만들기 (boot.war 포함)
         run: |
-          zip -r login_front.zip \
-            appspec.yml \
-            Scripts \
-            src \
-            public \
-            pom.xml
+          mkdir deploy
+          cp target/boot.war deploy/boot.war
+          cp appspec.yml deploy/
+          cp -r Scripts deploy/
+          cd deploy && zip -r login_front.zip .
 
-      - name: Upload ZIP to S3
-        run: aws s3 cp login_front.zip s3://lumiticketing-project-03230316/login_front_build.zip
+      - name: ☁️ S3로 업로드
+        run: aws s3 cp deploy/login_front.zip s3://lumiticketing-project-03230316/login_front_build.zip
 
-      - name: Trigger CodeDeploy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: 🚀 CodeDeploy 트리거
         run: |
           aws deploy create-deployment \
             --application-name LumiTicketing \
