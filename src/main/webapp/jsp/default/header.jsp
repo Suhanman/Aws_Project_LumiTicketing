@@ -131,7 +131,7 @@
 
 <div class="header-container">
 
-    <h1 class="site-title">완주의방패</h1>
+    <h1 class="site-title">완주의방패35사단</h1>
 
     
        <c:if test="${empty sessionScope.id}">
