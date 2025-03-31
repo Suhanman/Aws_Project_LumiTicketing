@@ -55,8 +55,9 @@
 		<label id="label" ></label><br>
 		<input type="text" name="userName" id="userName" placeholder="이름" ><br>
 		
-		<input type="text" name="mobile" placeholder="전화번호" ><br>
-		<input type="text" name="email" placeholder="이메일"><br> <!-- ✅ 추가 -->
+		<input type="text" name="mobile" id="mobile" placeholder="전화번호"><br>
+
+		<input type="text" name="email" placeholder="이메일" id="email"><br> <!-- ✅ 추가 -->
 
 		<input type="button" value="회원가입" onclick="allCheck()">
 		<input type="button" value="취소" onclick="location.href='index'"><br>
