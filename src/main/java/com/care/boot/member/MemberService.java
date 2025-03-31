@@ -1,44 +1,85 @@
-public String loginProc(String id, String pw, HttpSession session, HttpServletResponse response) {
-    if (id == null || id.trim().isEmpty()) return "아이디를 입력하세요.";
-    if (pw == null || pw.trim().isEmpty()) return "비밀번호를 입력하세요.";
+package com.care.boot.member;
 
-    MemberDTO check = mapper.login(id);
-    BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
-    if (check != null && encoder.matches(pw, check.getPw())) {
-        session.setAttribute("id", check.getId());
-        session.setAttribute("userName", check.getUserName());
-        session.setAttribute("mobile", check.getMobile());
-        session.setAttribute("email", check.getEmail());         // ✅ 추가
-        session.setAttribute("membership", check.getMembership());
+public class MemberDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
 
-        // ✅ loginUser 세션에 MemberDTO 객체 통째로 저장
-        session.setAttribute("loginUser", check);
+    private String id;            // 회원 ID
+    private String pw;            // 비밀번호
+    private String userName;      // 이름
+    private String mobile;        // 연락처
+    private String email;         // ✅ 이메일
+    private String membership;    // "Regular", "VIP", "Admin"
+    private Integer vipNumber;    // VIP 번호
+    private int ticket_number;    // 티켓 예매 번호
+    private String confirm;       // 비밀번호 확인용
+    private LocalDateTime date;   // 가입 일시
 
-        String grade = check.getMembership();
-        try {
-            redisService.save(check.getId(), new ObjectMapper().writeValueAsString(check));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        if ("vip".equalsIgnoreCase(grade) || "admin".equalsIgnoreCase(grade)) {
-            response.setHeader("X-User-Membership", "vip");
-            return "redirect:https://vip.lumiticketing.click/boot/index";
-        }
-
-        response.setHeader("X-User-Membership", "regular");
-        return "redirect:https://www.lumiticketing.click/boot/index";
+    // ✅ 기본 생성자
+    public MemberDTO() {
+        this.membership = "Regular";
     }
 
-    return "아이디 또는 비밀번호를 확인 후 다시 입력하세요.";
+    // ✅ 전체 필드 생성자
+    public MemberDTO(String id, String pw, String userName, String mobile, String email,
+                     String membership, int vipNumber, int ticketNumber, LocalDateTime date) {
+        this.id = id;
+        this.pw = pw;
+        this.userName = userName;
+        this.mobile = mobile;
+        this.email = email;
+        this.membership = membership;
+        this.vipNumber = vipNumber;
+        this.ticket_number = ticketNumber;
+        this.date = date;
+    }
+
+    // ✅ Getters & Setters
+    public String getId() { return id; }
+    public void setId(String id) { this.id = id; }
+
+    public String getPw() { return pw; }
+    public void setPw(String pw) { this.pw = pw; }
+
+    public String getUserName() { return userName; }
+    public void setUserName(String userName) { this.userName = userName; }
+
+    public String getMobile() { return mobile; }
+    public void setMobile(String mobile) { this.mobile = mobile; }
+
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
+
+    public String getMembership() { return membership; }
+    public void setMembership(String membership) { this.membership = membership; }
+
+    public Integer getVipNumber() { return vipNumber; }
+    public void setVipNumber(int vipNumber) { this.vipNumber = vipNumber; }
+
+    public int getTicketNumber() { return ticket_number; }
+    public void setTicketNumber(int ticketNumber) { this.ticket_number = ticketNumber; }
+
+    public int getTicket_number() { return ticket_number; }
+    public void setTicket_number(int ticket_number) { this.ticket_number = ticket_number; }
+
+    public String getConfirm() { return confirm; }
+    public void setConfirm(String confirm) { this.confirm = confirm; }
+
+    public LocalDateTime getDate() { return date; }
+    public void setDate(LocalDateTime date) { this.date = date; }
+
+    // ✅ 티켓 예매 로직
+    public boolean bookTicket(int currentTicketCount) {
+        if ("VIP".equalsIgnoreCase(this.membership)) {
+            this.ticket_number = this.vipNumber;
+            return true;
+        } else if (currentTicketCount >= 101 && currentTicketCount <= 5000) {
+            this.ticket_number = currentTicketCount;
+            return true;
+        }
+        return false;
+    }
 }
 
-
-   
-    
-
-    
-    
-	}
-    

@@ -25,6 +25,7 @@ public interface IMemberMapper {
             "UNION ALL " +
             "(SELECT id, pw, userName, mobile, email, membership, NULL AS vip_number FROM Admin WHERE id = #{id})")
     MemberDTO login(@Param("id") String id);
+
 }
 
 
