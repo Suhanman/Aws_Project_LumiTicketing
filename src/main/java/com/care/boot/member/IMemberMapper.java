@@ -31,20 +31,3 @@ public interface IMemberMapper {
 
 
 
-
-   
-
-    
-   
-
- 
-
-    @Select("SELECT id, userName, mobile, membership FROM RegularMember WHERE id = #{id} UNION ALL SELECT id, userName, mobile, membership FROM VIPMember WHERE id = #{id}")
-    MemberDTO getMemberById(@Param("id") String id);
-
- 
-
-
-
-    
-}

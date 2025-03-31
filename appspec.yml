@@ -1,15 +1,11 @@
 version: 0.0
 os: linux
-files:
- 
 
-  - source: src/main/java/com/
-    destination: /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/com/
-    overwrite: yes
-	
-  - source: src/main/resources/mappers/member.xml
-	destination: /opt/tomcat/tomcat-10/webapps/boot/WEB-INF/classes/mappers/member.xml
-	overwrite: yes
+
+files:
+  - source: target/boot-0.0.1-SNAPSHOT.war
+    destination: /opt/tomcat/tomcat-10/webapps/
+	overwrite:yes
 
 
 
