@@ -13,7 +13,8 @@
         let pw = document.getElementById("pw").value;
         let confirm = document.getElementById("confirm").value;
         let userName = document.getElementById("userName").value;
-        
+        let email = document.getElementById("email").value;
+
         if (id.trim() === "") {
             alert("아이디를 입력하세요.");
             return;
@@ -30,11 +31,14 @@
             alert("이름을 입력하세요.");
             return;
         }
+        if (email.trim() === "") {
+            alert("이메일을 입력하세요.");
+            return;
+        }
 
         document.getElementById("f").submit();
     }
 </script>
-
 
 <div align="center">
 	<h1>회원 등록</h1>
@@ -51,8 +55,9 @@
 		<label id="label" ></label><br>
 		<input type="text" name="userName" id="userName" placeholder="이름" ><br>
 		
-		
 		<input type="text" name="mobile" placeholder="전화번호" ><br>
+		<input type="text" name="email" placeholder="이메일" id="email"><br> <!-- ✅ 추가 -->
+
 		<input type="button" value="회원가입" onclick="allCheck()">
 		<input type="button" value="취소" onclick="location.href='index'"><br>
 	</form>
@@ -60,6 +65,7 @@
 </div>
 
 <c:import url="/footer" />
+
 
 
 
