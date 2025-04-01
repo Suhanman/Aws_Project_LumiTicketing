@@ -38,7 +38,7 @@ public class MemberController {
         if (msg.equals("회원 등록 완료")) {
             ra.addFlashAttribute("msg", msg);
 
-            service.SNSproc(member.getEmail());
+            service.sendWelcomeEmail(member.getEmail(), member.getUserName());
 
             return "redirect:index";
         }

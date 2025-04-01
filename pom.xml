@@ -70,11 +70,20 @@
 		</dependency>
 		
 	
+
+    
     <dependency>
-        <groupId>com.amazonaws</groupId>
-        <artifactId>aws-java-sdk-sns</artifactId>
-        <version>1.12.698</version> <!-- 최신 안정 버전 사용 -->
-    </dependency>
+    <groupId>com.amazonaws</groupId>
+    <artifactId>aws-java-sdk-ses</artifactId>
+    <version>1.12.698</version> <!-- 최신 버전 확인 가능 -->
+</dependency>
+
+<!-- AWS Core SDK (SES가 내부적으로 사용) -->
+<dependency>
+    <groupId>com.amazonaws</groupId>
+    <artifactId>aws-java-sdk-core</artifactId>
+    <version>1.12.698</version>
+</dependency>
 
 
 

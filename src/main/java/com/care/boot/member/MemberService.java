@@ -9,12 +9,11 @@ import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.amazonaws.services.sns.AmazonSNS;
-import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.care.boot.config.RedisService;
+import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
+import com.amazonaws.services.simpleemail.model.*;
 
 @Service
 public class MemberService {
@@ -22,24 +21,25 @@ public class MemberService {
     @Autowired private HttpSession session;
     @Autowired private HttpServletResponse response;
     @Autowired private RedisService redisService;
+    @Autowired private AmazonSimpleEmailService amazonSES;
+    
+    private final String FROM = "victor1919@naver.com"; // SES에 인증된 주소로 변경
 
-    @Autowired private AmazonSNS amazonSNS;
+    public void sendWelcomeEmail(String toEmail, String userName) {
+        String subject = "루미티켓팅 가입을 환영합니다!";
+        String body = String.format("안녕하세요 %s님,\n\n루미티켓팅에 오신 것을 환영합니다! 🎉", userName);
 
-    private final String topicArn = "arn:aws:sns:ap-northeast-2:841162676104:Ticketing-sns";
+        SendEmailRequest request = new SendEmailRequest()
+            .withDestination(new Destination().withToAddresses(toEmail))
+            .withMessage(new Message()
+                .withSubject(new Content(subject))
+                .withBody(new Body().withText(new Content(body))))
+            .withSource(FROM);
 
-    /**
-     * SNS 이메일 구독 요청을 처리하는 메서드
-     * 회원가입 시 호출하여, 해당 이메일을 SNS Topic에 등록함
-     * AWS에서 확인 메일을 자동 전송함
-     */
-    public void SNSproc(String email) {
-        SubscribeRequest request = new SubscribeRequest()
-            .withTopicArn(topicArn)
-            .withProtocol("email")
-            .withEndpoint(email); // 사용자 이메일 주소
-
-        amazonSNS.subscribe(request);
+        amazonSES.sendEmail(request);
     }
+
+
 
 
     public String registProc(MemberDTO member) {
