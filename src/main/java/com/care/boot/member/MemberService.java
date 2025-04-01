@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.amazonaws.services.sns.AmazonSNS;
+import com.amazonaws.services.sns.model.SubscribeRequest;
 import com.care.boot.config.RedisService;
 
 @Service
@@ -20,6 +22,23 @@ public class MemberService {
     @Autowired private HttpSession session;
     @Autowired private HttpServletResponse response;
     @Autowired private RedisService redisService;
+    @Autowired private AmazonSNS amazonSNS;
+
+    private final String topicArn = "arn:aws:sns:ap-northeast-2:841162676104:Ticketing-sns";
+
+    /**
+     * SNS 이메일 구독 요청을 처리하는 메서드
+     * 회원가입 시 호출하여, 해당 이메일을 SNS Topic에 등록함
+     * AWS에서 확인 메일을 자동 전송함
+     */
+    public void SNSproc(String email) {
+        SubscribeRequest request = new SubscribeRequest()
+            .withTopicArn(topicArn)
+            .withProtocol("email")
+            .withEndpoint(email); // 사용자 이메일 주소
+
+        amazonSNS.subscribe(request);
+    }
 
     public String registProc(MemberDTO member) {
         if (member.getId() == null || member.getId().trim().isEmpty()) return "아이디를 입력하세요.";

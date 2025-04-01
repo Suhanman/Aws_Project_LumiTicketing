@@ -68,6 +68,13 @@
 			<groupId>org.glassfish.web</groupId>
 			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
 		</dependency>
+		
+	
+    <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk-sns</artifactId>
+        <version>1.12.698</version> <!-- 최신 안정 버전 사용 -->
+    </dependency>
 
 
 
