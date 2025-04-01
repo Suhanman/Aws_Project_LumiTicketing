@@ -22,6 +22,7 @@ public class MemberService {
     @Autowired private HttpSession session;
     @Autowired private HttpServletResponse response;
     @Autowired private RedisService redisService;
+
     @Autowired private AmazonSNS amazonSNS;
 
     private final String topicArn = "arn:aws:sns:ap-northeast-2:841162676104:Ticketing-sns";
@@ -39,6 +40,7 @@ public class MemberService {
 
         amazonSNS.subscribe(request);
     }
+
 
     public String registProc(MemberDTO member) {
         if (member.getId() == null || member.getId().trim().isEmpty()) return "아이디를 입력하세요.";

@@ -20,6 +20,8 @@ public class MemberController {
     @Autowired private HttpSession session;
 
 
+
+
  // ✅ KakaoService 추가
 
     @RequestMapping("regist")
@@ -35,7 +37,9 @@ public class MemberController {
 
         if (msg.equals("회원 등록 완료")) {
             ra.addFlashAttribute("msg", msg);
+
             service.SNSproc(member.getEmail());
+
             return "redirect:index";
         }
         else if(msg.equals("이미 사용중인 아이디입니다.")) {
