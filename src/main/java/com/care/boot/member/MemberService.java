@@ -14,6 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.care.boot.config.RedisService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.model.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Service
 public class MemberService {

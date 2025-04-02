@@ -133,7 +133,7 @@
 
 
 
-    <h1 class="site-title">완주의방패35사단입니다람쥐</h1>
+    <h1 class="site-title">완주예비군훈련대대</h1>
 
 
     
