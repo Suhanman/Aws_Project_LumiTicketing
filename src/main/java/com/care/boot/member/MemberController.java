@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MemberController {
@@ -69,6 +70,12 @@ public class MemberController {
     public String testSession() {
         return "test-session";  // /jsp/test-session.jsp 를 가리킴
     }
+    
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("OK");
+    }
+}
 
 
 
