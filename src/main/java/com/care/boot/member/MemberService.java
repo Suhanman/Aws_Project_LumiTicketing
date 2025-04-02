@@ -25,7 +25,7 @@ public class MemberService {
     
     private final String FROM = "lumiticketing.click"; // SES에 인증된 주소로 변경
 
-    public void sendWelcomeEmail(String toEmail, String userName) {
+    public String sendWelcomeEmail(String toEmail, String userName, RedirectAttributes redirectAttributes) {
         String subject = "루미티켓팅 가입을 환영합니다!";
         String body = String.format("안녕하세요 %s님,\n\n루미티켓팅에 오신 것을 환영합니다! 🎉", userName);
 
@@ -36,8 +36,26 @@ public class MemberService {
                 .withBody(new Body().withText(new Content(body))))
             .withSource(FROM);
 
-        amazonSES.sendEmail(request);
+        try {
+            amazonSES.sendEmail(request);  // 정상 발송 시도
+            return "redirect:/login";  // 로그인 페이지 등으로 리다이렉트
+
+        } catch (MessageRejectedException | MailFromDomainNotVerifiedException e) {
+            // 이메일 인증이 안된 경우 발생
+            VerifyEmailAddressRequest verifyReq = new VerifyEmailAddressRequest()
+                .withEmailAddress(toEmail);
+            amazonSES.verifyEmailAddress(verifyReq);  // 자동 자격증명 요청
+
+            // 사용자에게 메일 확인하라는 메시지 전달
+            redirectAttributes.addFlashAttribute("msg", "메일 인증이 필요합니다. 메일함을 확인해주세요!");
+            return "redirect:/index";
+        } catch (Exception e) {
+            System.out.println("❌ 기타 오류: " + e.getMessage());
+            redirectAttributes.addFlashAttribute("msg", "이메일 전송 중 오류가 발생했습니다.");
+            return "redirect:/index";
+        }
     }
+
 
 
 
