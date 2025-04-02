@@ -23,7 +23,7 @@ public class MemberService {
     @Autowired private RedisService redisService;
     @Autowired private AmazonSimpleEmailService amazonSES;
     
-    private final String FROM = "victor1919@naver.com"; // SES에 인증된 주소로 변경
+    private final String FROM = "lumiticketing.click"; // SES에 인증된 주소로 변경
 
     public void sendWelcomeEmail(String toEmail, String userName) {
         String subject = "루미티켓팅 가입을 환영합니다!";
