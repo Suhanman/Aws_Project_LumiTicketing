@@ -29,7 +29,7 @@ public class MemberService {
     @Autowired private RedisService redisService;
     @Autowired private AmazonSimpleEmailService amazonSES;
     
-    private final String FROM = "lumiticketing.click"; // SES에 인증된 주소로 변경
+    private final String FROM = "victor1919@naver.com"; // SES에 인증된 주소로 변경
 
     public String sendWelcomeEmail(String toEmail, String userName, RedirectAttributes redirectAttributes) {
         // 1. 이메일 인증 여부 확인
@@ -68,8 +68,6 @@ public class MemberService {
             return "redirect:/index";
         }
     }
-
-
 
 
 
