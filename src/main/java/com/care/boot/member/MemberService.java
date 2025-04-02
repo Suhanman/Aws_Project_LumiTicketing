@@ -15,6 +15,11 @@ import com.care.boot.config.RedisService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.model.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.amazonaws.services.simpleemail.model.GetIdentityVerificationAttributesRequest;
+import com.amazonaws.services.simpleemail.model.GetIdentityVerificationAttributesResult;
+import com.amazonaws.services.simpleemail.model.IdentityVerificationAttributes;
+import com.amazonaws.services.simpleemail.model.VerificationStatus;
+
 
 @Service
 public class MemberService {
@@ -27,6 +32,24 @@ public class MemberService {
     private final String FROM = "lumiticketing.click"; // SES에 인증된 주소로 변경
 
     public String sendWelcomeEmail(String toEmail, String userName, RedirectAttributes redirectAttributes) {
+        // 1. 이메일 인증 여부 확인
+        GetIdentityVerificationAttributesRequest checkRequest = new GetIdentityVerificationAttributesRequest()
+            .withIdentities(toEmail);
+        GetIdentityVerificationAttributesResult checkResult = amazonSES.getIdentityVerificationAttributes(checkRequest);
+
+        IdentityVerificationAttributes attrs = checkResult.getVerificationAttributes().get(toEmail);
+
+        boolean isVerified = (attrs != null &&
+                              VerificationStatus.Success.name().equals(attrs.getVerificationStatus()));
+
+        if (!isVerified) {
+            // 2. 인증 안 되어 있으면 자동 요청 + 안내 메시지
+            amazonSES.verifyEmailAddress(new VerifyEmailAddressRequest().withEmailAddress(toEmail));
+            redirectAttributes.addFlashAttribute("msg", "메일 인증이 필요합니다. 메일함을 확인해주세요!");
+            return "redirect:/index";
+        }
+
+        // 3. 인증이 된 상태면 이메일 전송
         String subject = "루미티켓팅 가입을 환영합니다!";
         String body = String.format("안녕하세요 %s님,\n\n루미티켓팅에 오신 것을 환영합니다! 🎉", userName);
 
@@ -38,24 +61,14 @@ public class MemberService {
             .withSource(FROM);
 
         try {
-            amazonSES.sendEmail(request);  // 정상 발송 시도
-            return "redirect:/login";  // 로그인 페이지 등으로 리다이렉트
-
-        } catch (MessageRejectedException | MailFromDomainNotVerifiedException e) {
-            // 이메일 인증이 안된 경우 발생
-            VerifyEmailAddressRequest verifyReq = new VerifyEmailAddressRequest()
-                .withEmailAddress(toEmail);
-            amazonSES.verifyEmailAddress(verifyReq);  // 자동 자격증명 요청
-
-            // 사용자에게 메일 확인하라는 메시지 전달
-            redirectAttributes.addFlashAttribute("msg", "메일 인증이 필요합니다. 메일함을 확인해주세요!");
-            return "redirect:/index";
+            amazonSES.sendEmail(request);
+            return "redirect:/login";
         } catch (Exception e) {
-            System.out.println("❌ 기타 오류: " + e.getMessage());
             redirectAttributes.addFlashAttribute("msg", "이메일 전송 중 오류가 발생했습니다.");
             return "redirect:/index";
         }
     }
+
 
 
 
