@@ -133,7 +133,7 @@
 
 
 
-    <h1 class="site-title">탑골순대국밥</h1>
+    <h1 class="site-title">탑골순대국밥집</h1>
 
 
     
