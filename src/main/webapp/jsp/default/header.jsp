@@ -133,7 +133,7 @@
 
 
 
-    <h1 class="site-title">김종구부산어묵</h1>
+    <h1 class="site-title">LumiTicketing login page</h1>
 
 
     
