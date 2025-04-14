@@ -133,7 +133,7 @@
 
 
 
-    <h1 class="site-title">LumiTicketing login page</h1>
+    <h1 class="site-title">LumiTicketing login_page</h1>
 
 
     
